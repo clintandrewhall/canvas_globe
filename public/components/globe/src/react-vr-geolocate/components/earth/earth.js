@@ -8,7 +8,7 @@ import { earthSpinOffset } from '../../consts/rotationOffset';
 class Earth extends React.Component {
   static defaultProps = {
     scale: 1.5,
-    showLocationMarkers: false
+    showLocationMarkers: false,
   };
   render() {
     const {
@@ -16,13 +16,15 @@ class Earth extends React.Component {
       scale,
       wrap,
       showLocationMarkers,
-      locationMarkerStyle
+      locationMarkerStyle,
+      focalPoint,
     } = this.props;
+    console.log(focalPoint);
     return (
       <EarthSpin
         xOffset={earthSpinOffset}
         yOffset={0}
-        focalPoint={this.props.focalPoint}
+        focalPoint={focalPoint}
         locationContent={locationContent}
       >
         <SpaceSphere wrap={wrap} radius={scale} lit={true} />
@@ -31,7 +33,7 @@ class Earth extends React.Component {
           locationMarkerStyle={locationMarkerStyle}
           locationContent={locationContent}
           sphereRadius={scale}
-          selectedLocation={this.props.focalPoint}
+          selectedLocation={focalPoint}
         />
       </EarthSpin>
     );
@@ -43,7 +45,7 @@ Earth.propTypes = {
   scale: PropTypes.number.isRequired,
   wrap: PropTypes.object.isRequired,
   showLocationMarkers: PropTypes.bool,
-  locationMarkerStyle: PropTypes.object
+  locationMarkerStyle: PropTypes.object,
 };
 
 export default Earth;

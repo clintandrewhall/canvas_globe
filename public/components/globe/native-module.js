@@ -1,13 +1,23 @@
 import { Module } from 'react-360-web';
+import EventEmitter from 'EventEmitter';
 
 /**
  * Demonstration of a custom Native Module, used to send browser information
  * to the React application.
  */
 export default class NativeModule extends Module {
+  _emitter = new EventEmitter();
   constructor(ctx) {
     super('NativeModule');
     this._rnctx = ctx;
+  }
+
+  applyDataCallback(callback) {
+    console.log('applyDataCallback');
+    debugger;
+    this._emitter.addListener('test', (type, event) => {
+      console.log('EVENT', type, event);
+    });
   }
 
   getData(callback) {

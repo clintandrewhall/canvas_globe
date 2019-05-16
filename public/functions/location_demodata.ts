@@ -5,6 +5,7 @@ import {
   DatatableColumn,
   DatatableRow,
 } from '../../../../x-pack/plugins/canvas/canvas_plugin_src/functions/types';
+import { queryDatatable } from '../../../../x-pack/plugins/canvas/common/lib/datatable/query';
 
 import data from './location_data.json';
 
@@ -18,7 +19,7 @@ export function location_demodata(): ContextFunction<'location_demodata', Filter
       types: ['filter'],
     },
     args: {},
-    fn: () => {
+    fn: context => {
       const columns: DatatableColumn[] = [
         { name: '@timestamp', type: 'date' },
         { name: 'name', type: 'string' },
@@ -32,16 +33,19 @@ export function location_demodata(): ContextFunction<'location_demodata', Filter
       const rows: DatatableRow[] = data.map(row => {
         const { created, ...rest } = row;
         return {
-          timestamp: new Date(row.created).getTime(),
+          '@timestamp': created,
           ...rest,
         };
       });
 
-      return {
-        type: 'datatable',
-        columns,
-        rows,
-      };
+      return queryDatatable(
+        {
+          type: 'datatable',
+          columns,
+          rows,
+        },
+        context
+      );
     },
   };
 }

@@ -16,6 +16,20 @@
       // Initialize the React 360 application
       React360.init('index.bundle?platform=vr&dev=true', document.getElementById('container'), {
         assetRoot: 'static_assets/',
+        initialProps: {
+          locations: [
+            {
+              name: 'The Westin Palo Alto',
+              lat: 37.44062785164005,
+              lng: -122.16309517621988,
+            },
+            {
+              name: 'Facebook MPK 16',
+              lat: 37.485660782863306,
+              lng: -122.14804713691099,
+            },
+          ],
+        },
       });
     </script>
   </body>

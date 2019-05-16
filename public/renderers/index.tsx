@@ -2,6 +2,9 @@
 import { renderersRegistry } from 'plugins/interpreter/registries';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import EventEmitter from 'EventEmitter';
+
+const _emitter = new EventEmitter();
 
 import '!!script-loader!../components/globe/build/client.bundle';
 
@@ -20,15 +23,9 @@ export const globe = () => ({
       return { name, lat, lng };
     });
 
-    try {
-      localStorage.setItem('r360-location-data', JSON.stringify(locations));
-      console.log('Saved: ', locations);
-    } catch (error) {
-      console.log('Error saving data: ', error);
-    }
-
     window.React360.init('../360/build/index.bundle.js', domNode, {
       assetRoot: '../360/static_assets/',
+      initialProps: { locations },
     });
   },
 });

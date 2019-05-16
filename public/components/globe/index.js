@@ -1,7 +1,5 @@
 import React from 'react';
-import { AmbientLight, AppRegistry, StyleSheet, NativeModules, asset, View } from 'react-360';
-
-const { NativeModule } = NativeModules;
+import { AmbientLight, AppRegistry, asset, View, VrButton, Text } from 'react-360';
 
 import Earth from './src/react-vr-geolocate';
 import Marker from './src/marker';
@@ -11,76 +9,89 @@ export default class canvas_globe extends React.Component {
     super();
     this.state = {
       index: 0,
-      locations: null,
     };
-  }
-
-  componentDidMount() {
-    setInterval(() => this._checkStorage(), 5000);
-  }
-
-  _checkStorage() {
-    console.log('Checking for data...');
-    NativeModule.getData(data => {
-      console.log('DATA', typeof data);
-      const locations = JSON.parse(data).map(location => ({
-        coordinates: {
-          lat: parseFloat(location.lat),
-          lon: parseFloat(location.lng),
-        },
-        component: <Marker highlighted={true} label={location.name} />,
-      }));
-
-      this.setState({ locations });
-    });
   }
 
   render() {
     const earthRadius = 1;
+    const locations = this.props.locations || [];
+    const markers = locations.map(location => ({
+      coordinates: {
+        lat: parseFloat(location.lat),
+        lon: parseFloat(location.lng),
+      },
+      component: <Marker highlighted={true} label={location.name} />,
+    }));
 
-    return this.state.locations ? (
+    return this.props.locations ? (
       <View>
         <View style={{ alignItems: 'center' }}>
           <View
             style={{
               position: 'absolute',
-              transform: [{ translate: [0, 0, -3] }],
+              transform: [{ translate: [0, 0, -2.25] }],
             }}
           >
             <Earth
               locationMarkerStyle={{ color: 'red' }}
               showLocationMarkers={true}
               wrap={asset('earth.jpg')}
-              locationContent={this.state.locations}
+              locationContent={markers}
               scale={earthRadius}
-              focalPoint={this.state.locations[this.state.index]}
+              focalPoint={markers[this.state.index]}
             />
           </View>
           <AmbientLight intensity={1.2} decay={100} />
         </View>
+        <VrButton
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+            position: 'absolute',
+            transform: [{ translate: [2, 0, -3] }],
+          }}
+          onClick={() => {
+            this.setState({
+              index: Math.min(this.state.index + 1, markers.length - 1),
+            });
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 0.25,
+            }}
+          >
+            {'>'}
+          </Text>
+        </VrButton>
+        <VrButton
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignContent: 'center',
+            position: 'absolute',
+            transform: [{ translate: [-2, 0, -3] }],
+          }}
+          onClick={() => {
+            this.setState({
+              index: Math.max(this.state.index - 1, 0),
+            });
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 0.25,
+            }}
+          >
+            {'<'}
+          </Text>
+        </VrButton>
       </View>
     ) : null;
   }
 }
-
-const styles = StyleSheet.create({
-  panel: {
-    // Fill the entire surface
-    width: 1000,
-    height: 600,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  greetingBox: {
-    padding: 20,
-    backgroundColor: '#000000',
-    borderColor: '#639dda',
-    borderWidth: 2,
-  },
-  greeting: {
-    fontSize: 30,
-  },
-});
 
 AppRegistry.registerComponent('canvas_globe', () => canvas_globe);
