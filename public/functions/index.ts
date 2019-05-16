@@ -1,24 +1,9 @@
+// @ts-ignore
 import { functionsRegistry } from 'plugins/interpreter/registries';
+import { globe } from './globe';
+import { location_demodata } from './location_demodata';
 
-const globe = () => ({
-  name: 'globe',
-  aliases: [],
-  type: 'render',
-  context: {
-    types: ['datatable'],
-  },
-  help: 'testing',
-  args: {},
-  fn: context => {
-    return {
-      type: 'render',
-      as: 'globe',
-      value: {},
-    };
-  },
-});
-
-const functions = [globe];
+const functions = [globe, location_demodata];
 
 functions.forEach(r => {
   functionsRegistry.register(r);

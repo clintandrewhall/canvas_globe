@@ -1,4 +1,5 @@
 import { i18n } from '@kbn/i18n';
+import init from './init';
 
 export default function(kibana) {
   return new kibana.Plugin({
@@ -20,6 +21,7 @@ export default function(kibana) {
     },
 
     init(server, options) {
+      init(server);
       // eslint-disable-line no-unused-vars
       const xpackMainPlugin = server.plugins.xpack_main;
       if (xpackMainPlugin) {
