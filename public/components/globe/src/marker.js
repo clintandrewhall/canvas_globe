@@ -10,10 +10,10 @@ export default class Marker extends React.Component {
           flex: 1,
           backfaceVisibility: 'hidden',
           justifyContent: 'center',
-          transform: [{ rotateX: 30 }, { translate: [0, 0.065, 0] }],
+          transform: [{ rotateX: 30 }, { translate: [-0.01, 0.08, -0.01] }],
         }}
       >
-        <View
+        <Text
           style={{
             display: this.props.highlighted ? 'flex' : 'none',
             backfaceVisibility: 'hidden',
@@ -21,29 +21,24 @@ export default class Marker extends React.Component {
             paddingLeft: 0.025,
             paddingRight: 0.025,
             height: 0.05,
+            fontSize: 0.025,
             flex: 1,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            color: '#000',
             transform: [
-              { scale: 1.75 },
+              { scale: this.props.highlighted ? 1.75 : 1 },
               {
-                translateY: 0.07,
+                translateY: this.props.highlighted ? 0.1 : 0.075,
+              },
+              {
+                translateZ: 0, //this.props.highlighted ? 0.01 : 0,
               },
             ],
           }}
         >
-          <Text
-            style={{
-              backfaceVisibility: 'hidden',
-              display: 'flex',
-              textAlign: 'center',
-              textAlignVertical: 'center',
-              fontSize: 0.025,
-              color: '#000',
-              transform: [{ translate: [0, -0.005, 0] }],
-            }}
-          >
-            {this.props.label}
-          </Text>
-        </View>
+          {this.props.label}
+        </Text>
         <Image
           style={{
             display: this.props.highlighted ? 'flex' : 'none',

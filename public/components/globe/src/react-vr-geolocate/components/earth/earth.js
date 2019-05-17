@@ -17,23 +17,20 @@ class Earth extends React.Component {
       wrap,
       showLocationMarkers,
       locationMarkerStyle,
-      focalPoint,
     } = this.props;
-    console.log(focalPoint);
     return (
       <EarthSpin
         xOffset={earthSpinOffset}
         yOffset={0}
-        focalPoint={focalPoint}
-        locationContent={locationContent}
-      >
+        focalPoint={this.props.focalPoint}
+        locationContent={locationContent}>
         <SpaceSphere wrap={wrap} radius={scale} lit={true} />
         <Overlay
           showLocationMarkers={showLocationMarkers}
           locationMarkerStyle={locationMarkerStyle}
           locationContent={locationContent}
           sphereRadius={scale}
-          selectedLocation={focalPoint}
+          selectedLocation={this.props.focalPoint}
         />
       </EarthSpin>
     );

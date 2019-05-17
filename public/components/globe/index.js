@@ -15,11 +15,12 @@ export default class canvas_globe extends React.Component {
   render() {
     const earthRadius = 1;
     const locations = this.props.locations || [];
-    const markers = locations.map(location => ({
+    const markers = locations.map((location, index) => ({
       coordinates: {
         lat: parseFloat(location.lat),
         lon: parseFloat(location.lng),
       },
+      onClick: () => this.setState({ index }),
       component: <Marker highlighted={true} label={location.name} />,
     }));
 

@@ -31,10 +31,14 @@ export function location_demodata(): ContextFunction<'location_demodata', Filter
       ];
 
       const rows: DatatableRow[] = data.map(row => {
-        const { created, ...rest } = row;
+        const { created, location, name, city, state } = row;
         return {
           '@timestamp': created,
-          ...rest,
+          lat: location.lat,
+          lng: location.lng,
+          city: city || '??',
+          state: state || '??',
+          name,
         };
       });
 

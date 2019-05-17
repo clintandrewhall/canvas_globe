@@ -13,7 +13,7 @@ export default class EarthSpin extends React.Component {
     this.state = {
       rotateValue: new Animated.Value(0),
       bounceXValue: new Animated.Value(this.primeMeridianOffset),
-      bounceYValue: new Animated.Value(this.equatorOffset)
+      bounceYValue: new Animated.Value(this.equatorOffset),
     };
   }
   mapLatitude(lat) {
@@ -40,18 +40,18 @@ export default class EarthSpin extends React.Component {
     this.resetEarthPosition(this.props);
   }
   componentWillReceiveProps(next) {
-    // this.resetEarthPosition(next);
+    this.resetEarthPosition(next);
   }
   spin(lat, lon) {
     Animated.spring(this.state.bounceXValue, {
       toValue: lon,
       friction: 15,
-      tension: 4
+      tension: 4,
     }).start();
     Animated.spring(this.state.bounceYValue, {
       toValue: lat,
       friction: 15,
-      tension: 4
+      tension: 4,
     }).start(o => {
       if (o.finished) {
         this.rotate();
@@ -63,7 +63,7 @@ export default class EarthSpin extends React.Component {
     Animated.timing(this.state.rotateValue, {
       toValue: 360,
       duration: 100000,
-      easing: Easing.linear
+      easing: Easing.linear,
     }).start(o => {
       if (o.finished) {
         this.rotate();
@@ -75,9 +75,8 @@ export default class EarthSpin extends React.Component {
     return (
       <Animated.View
         style={{
-          transform: [{ rotateX: this.state.bounceYValue }, { rotateY: thing }]
-        }}
-      >
+          transform: [{ rotateX: this.state.bounceYValue }, { rotateY: thing }],
+        }}>
         {this.props.children}
       </Animated.View>
     );

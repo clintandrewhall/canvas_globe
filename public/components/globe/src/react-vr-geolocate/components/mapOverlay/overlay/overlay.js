@@ -8,30 +8,23 @@ export default class Overlay extends React.Component {
     super();
   }
   render() {
-    const {
-      locationContent,
-      showLocationMarkers,
-      locationMarkerStyle,
-      sphereRadius
-    } = this.props;
+    const { locationContent, showLocationMarkers, locationMarkerStyle, sphereRadius } = this.props;
     if (!locationContent) {
       return null;
     }
     return (
       <View>
         {locationContent.map((location, idx) => {
-          const location3dCoords = to3dLocation(
-            location.coordinates,
-            sphereRadius
-          );
+          const location3dCoords = to3dLocation(location.coordinates, sphereRadius);
           return (
             <View
               key={`${location.location}-${idx}`}
+              onClick={location.onClick}
               style={{
                 flex: 1,
                 alignItems: 'center',
                 position: 'absolute',
-                transform: [{ translate: location3dCoords }]
+                transform: [{ translate: location3dCoords }],
               }}
             >
               {showLocationMarkers && (

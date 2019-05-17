@@ -9,7 +9,7 @@ class Orbiter extends React.Component {
     super(props);
     this.spin = this.spin.bind(this);
     this.state = {
-      bounceValue: new Animated.Value(0)
+      bounceValue: new Animated.Value(0),
     };
   }
   spin(to) {
@@ -17,14 +17,16 @@ class Orbiter extends React.Component {
     Animated.timing(this.state.bounceValue, {
       toValue: to,
       duration: 200000,
-      easing: Easing.linear
+      easing: Easing.linear,
     }).start(o => {
+      console.log('why');
       if (o.finished) {
         this.spin(to);
       }
     });
   }
   componentDidMount() {
+    console.log('hey');
     this.spin(360);
   }
   render() {
@@ -32,18 +34,16 @@ class Orbiter extends React.Component {
       <View
         style={{
           position: 'absolute',
-          transform: [{ rotateX: '20deg' }]
-        }}
-      >
+          transform: [{ rotateX: '20deg' }],
+        }}>
         <Animated.View
           style={{
             position: 'absolute',
             transform: [
               { rotateY: this.state.bounceValue },
-              { translate: [0, 0, overlayLonOffset] }
-            ]
-          }}
-        >
+              { translate: [0, 0, overlayLonOffset] },
+            ],
+          }}>
           <SpaceSphere wrap={asset(this.props.src)} radius={this.props.size} />
         </Animated.View>
       </View>

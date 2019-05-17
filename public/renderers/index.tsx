@@ -23,6 +23,8 @@ export const globe = () => ({
       return { name, lat, lng };
     });
 
+    domNode.innerHTML = '';
+
     window.React360.init('../360/build/index.bundle.js', domNode, {
       assetRoot: '../360/static_assets/',
       initialProps: { locations },
